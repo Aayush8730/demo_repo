@@ -1,0 +1,12 @@
+.container{
+  display: flex;
+  flex-direction: row;
+}
+
+.wrapper{
+  flex: 1;
+}
+
+#display-tasks{
+  flex: 1;
+}
