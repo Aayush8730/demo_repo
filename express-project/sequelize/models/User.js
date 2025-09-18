@@ -11,6 +11,10 @@ export default (sequelize, DataTypes) => {
         validate: { isEmail: true },
       },
       password: { type: DataTypes.STRING, allowNull: false },
+    },
+    {
+      tableName: "Users",   //this fixes the table name
+      freezeTableName: true //stops Sequelize from pluralizing
     }
   );
 
