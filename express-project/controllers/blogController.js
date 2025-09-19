@@ -24,3 +24,15 @@ export async function createBlog(req,res){
   }
 
 }
+export async function deleteBlog(req,res) {
+   try{
+      const blog_id = req.params.id;
+      const blog = await Blog.findByPk(blog_id)
+      if(!blog)res.status(404).json({msg : "Blog Not Found"});
+
+      await blog.destroy();
+      res.json({ message: "Blog deleted" });
+   }catch(err){
+    res.status(500).json({ error: err.message });
+   }
+}
