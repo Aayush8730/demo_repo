@@ -1,9 +1,8 @@
 export default (sequelize, DataTypes) => {
   const Blog = sequelize.define("Blog", {
-    id: {
+    userId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      allowNull : false
     },
     title: {
       type: DataTypes.TEXT,
@@ -21,8 +20,8 @@ export default (sequelize, DataTypes) => {
 
   // Associations will be added later in index.js
   Blog.associate = (db) => {
-    db.User.hasMany(db.Blog, { foreignKey: "userID" , onDelete : "CASCADE" });
-    db.Blog.belongsTo(db.User, { foreignKey: "userID" });
+    db.User.hasMany(db.Blog, { foreignKey: "userId" , onDelete : "CASCADE" });
+    db.Blog.belongsTo(db.User, { foreignKey: "userId" });
   };
 
   return Blog;

@@ -73,7 +73,7 @@ async function loadModels() {
 
   // Sync all models with DB
   // Useful in development, but in production use migrations instead
-  await sequelize.sync();
+  await sequelize.sync({alter : true});
   console.log("All models synchronized (tables created/updated).");
 }
 
