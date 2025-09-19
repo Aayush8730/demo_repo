@@ -41,6 +41,48 @@ export async function getAllBlogs(req, res) {
   }
 }
 
+export async function getBlogById(req,res) {
+  try{
+    const blog_id = req.params.id;
+    const blog = await Blog.findByPk(blog_id, {
+      include : [
+        {
+        model: User,
+        attributes : ["id","username","email"],
+        }
+      ]
+    })
+
+    if(!blog) res.status(404).json({msg: "Blog not found."})
+    res.status(200).json(blog);
+  }catch(err){
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export async function updateBlog(req, res) {
+  try {
+    const { title, content, img } = req.body;
+    const blog = await Blog.findByPk(req.params.id);
+
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    // Only allow owner to update
+    if (blog.userId !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    blog.title = title || blog.title;
+    blog.content = content || blog.content;
+    blog.img = img || blog.img;
+
+    await blog.save();
+    res.json({ message: "Blog updated", blog });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 export async function deleteBlog(req,res) {
    try{
       const blog_id = req.params.id;
