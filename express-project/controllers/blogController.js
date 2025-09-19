@@ -22,8 +22,25 @@ export async function createBlog(req,res){
   }catch(err){
     res.status(500).json({ error: err.message });
   }
-
 }
+
+export async function getAllBlogs(req, res) {
+  try {
+    const blogs = await Blog.findAll({
+      include: [
+        {
+          model: User, // we need to include the model to perform join operation 
+          attributes: ["id", "username", "email"], // and attributes of user model that we want
+        },
+      ],
+      order: [["createdAt", "DESC"]], // order by createdAt desc : latest
+    });
+    res.status(200).json(blogs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 export async function deleteBlog(req,res) {
    try{
       const blog_id = req.params.id;
